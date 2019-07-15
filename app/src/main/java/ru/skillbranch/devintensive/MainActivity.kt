@@ -16,13 +16,14 @@ import ru.skillbranch.devintensive.models.Bender
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val benderKey = "Bender"
+    private val textKey = "text"
 
     private lateinit var benderObj: Bender
 
-    private lateinit var sendBtn: ImageView
-    private lateinit var messageEt: EditText
-    private lateinit var benderImage: ImageView
-    private lateinit var textTxt: TextView
+    lateinit var sendBtn: ImageView
+    lateinit var messageEt: EditText
+    lateinit var benderImage: ImageView
+    lateinit var textTxt: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +34,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         messageEt = et_message
         sendBtn = iv_send
 
-        benderObj = if (savedInstanceState != null) {
-            savedInstanceState.getSerializable(benderKey) as Bender
+        if (savedInstanceState != null) {
+            benderObj = savedInstanceState.getSerializable(benderKey) as Bender
+            textTxt.text = savedInstanceState.getString(textKey)
+            setColorFromStatus()
         } else {
-            Bender()
+            benderObj = Bender()
+            textTxt.text = benderObj.askQuestion()
         }
 
-        textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
 
         messageEt.setOnEditorActionListener { _, actionId, _ ->
@@ -62,7 +65,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().trim())
         textTxt.setText(phrase)
         messageEt.setText("")
-        val (r, g, b) = color
+        setColorFromStatus()
+    }
+
+    private fun setColorFromStatus() {
+        val (r, g, b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
     }
 
