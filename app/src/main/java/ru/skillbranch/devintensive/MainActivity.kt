@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         if (savedInstanceState != null) {
             benderObj = savedInstanceState.getSerializable(benderKey) as Bender
-            textTxt.text = savedInstanceState.getString(textKey)
+            textTxt.text = benderObj.askQuestion()
             setColorFromStatus()
         } else {
             benderObj = Bender()
