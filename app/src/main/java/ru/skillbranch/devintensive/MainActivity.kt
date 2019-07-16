@@ -76,5 +76,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putSerializable(benderKey, benderObj)
+        outState?.putString(textKey, textTxt.text.toString())
     }
 }

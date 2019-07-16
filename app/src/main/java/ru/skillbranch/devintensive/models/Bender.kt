@@ -2,7 +2,7 @@ package ru.skillbranch.devintensive.models
 
 import java.io.Serializable
 
-class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME): Serializable {
+class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) : Serializable {
 
     fun askQuestion(): String = when (question) {
         Question.NAME -> Question.NAME.question
@@ -70,19 +70,26 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         CRITICAL(Triple(255, 0, 0));
 
         fun nextStatus(): Status =
-                if (ordinal < values().size - 1) values()[ordinal + 1]
-                else values()[0]
+            if (ordinal < values().size - 1) values()[ordinal + 1]
+            else values()[0]
+
     }
 
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf("Бендер", "bender")),
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")),
         MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")),
-        BDAY("Когда меня создали?", listOf("2993")),
-        SERIAL("Мой серийный номер?", listOf("2716057")),
+        BDAY("Когда меня создали?", listOf("1111")), // STOPSHIP
+        SERIAL("Мой серийный номер?", listOf("1111111")), // STOPSHIP
         IDLE("На этом все, вопросов больше нет", listOf());
 
-        fun nextQuestion(): Question = values()[ordinal + 1]
+        fun nextQuestion(): Question =
+            if (this == IDLE) {
+                IDLE
+            } else {
+                values()[ordinal + 1]
+            }
     }
+
 
 }
