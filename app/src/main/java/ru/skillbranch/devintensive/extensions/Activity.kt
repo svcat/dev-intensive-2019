@@ -15,10 +15,18 @@ fun Activity.hideKeyboard() {
     }
 }
 
-fun Activity.isKeyboardVisible(): Boolean {
+fun Activity.isKeyboardOpen(): Boolean {
+    return isKeyboardVisible()
+}
+
+fun Activity.isKeyboardClosed(): Boolean {
+   return !isKeyboardVisible()
+}
+
+private fun Activity.isKeyboardVisible(): Boolean {
     val activityRoot = findViewById<ViewGroup>(R.id.activity_root)
     val rootView = getWindow().getDecorView().getRootView()
     val r = Rect()
     rootView.getWindowVisibleDisplayFrame(r)
-    return activityRoot.getHeight() - (r.bottom - r.top) > 100
+    return activityRoot.height - (r.bottom - r.top) > 100
 }
