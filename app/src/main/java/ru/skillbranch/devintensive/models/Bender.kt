@@ -79,8 +79,8 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         NAME("Как меня зовут?", listOf("Бендер", "bender")),
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")),
         MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")),
-        BDAY("Когда меня создали?", listOf("1111")), // STOPSHIP
-        SERIAL("Мой серийный номер?", listOf("1111111")), // STOPSHIP
+        BDAY("Когда меня создали?", listOf("2993")),
+        SERIAL("Мой серийный номер?", listOf("2716057")),
         IDLE("На этом все, вопросов больше нет", listOf());
 
         fun nextQuestion(): Question =
