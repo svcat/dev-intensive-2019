@@ -1,6 +1,20 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
+import android.util.TypedValue
+import ru.skillbranch.devintensive.R
+
+/**
+ * Created by Svcaton 2019-07-02.
+ */
 object Utils {
+
+
+    fun getThemeAccentColor(context: Context): Int {
+        val value = TypedValue()
+        context.theme.resolveAttribute(R.attr.colorAccent, value, true)
+        return value.data
+    }
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
         val parts: List<String>? = fullName?.split(" ")

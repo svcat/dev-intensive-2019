@@ -42,17 +42,4 @@ data class User(
         ${"\n"}
         $lastName
     """.trimIndent()
-
-    fun printMe() = println(
-        """
-        id: $id
-        firstName: $firstName
-        lastName: $lastName
-        avatar: $avatar
-        rating: $rating
-        respect: $respect
-        lastVisit: $lastVisit
-        isOnline: $isOnline
-    """.trimIndent()
-    )
 }

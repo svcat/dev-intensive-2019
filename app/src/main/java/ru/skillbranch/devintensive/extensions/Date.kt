@@ -8,23 +8,21 @@ const val MINUTE = 60 * SECOND
 const val HOUR = 60 * MINUTE
 const val DAY = 24 * HOUR
 
-fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
-    val dataFormat = SimpleDateFormat(pattern, Locale("ru"))
-    return dataFormat.format(this)
-}
-
 fun Date.add(value: Int, units: TimeUnits): Date {
-    var time = this.time
 
-    time += when (units) {
+    this.time += when (units) {
         TimeUnits.SECOND -> value * SECOND
         TimeUnits.MINUTE -> value * MINUTE
         TimeUnits.HOUR -> value * HOUR
         TimeUnits.DAY -> value * DAY
     }
 
-    this.time = time
     return this
+}
+
+fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
+    val dataFormat = SimpleDateFormat(pattern, Locale("ru"))
+    return dataFormat.format(this)
 }
 
 fun Date.humanizeDiff(): String {

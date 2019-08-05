@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import ru.skillbranch.devintensive.R
 
 fun Activity.hideKeyboard() {
-    val view = this.currentFocus
-    if (view != null) {
+    if (currentFocus != null) {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
-        imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        imm?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 }
 
@@ -24,9 +23,9 @@ fun Activity.isKeyboardClosed(): Boolean {
 }
 
 private fun Activity.isKeyboardVisible(): Boolean {
-    val activityRoot = findViewById<ViewGroup>(R.id.activity_root)
+    val activityRoot = findViewById<ViewGroup>(android.R.id.content)
     val rootView = getWindow().getDecorView().getRootView()
-    val r = Rect()
-    rootView.getWindowVisibleDisplayFrame(r)
-    return activityRoot.height - (r.bottom - r.top) > 100
+    val visible = Rect()
+    rootView.getWindowVisibleDisplayFrame(visible)
+    return activityRoot.height - (visible.bottom - visible.top) > 100
 }

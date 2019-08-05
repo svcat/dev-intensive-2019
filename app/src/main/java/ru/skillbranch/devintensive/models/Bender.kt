@@ -22,30 +22,32 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
         val loweredAnswer = answer.toLowerCase()
         return if (question == Question.IDLE || question.answers.contains(loweredAnswer)) {
-            question = question.nextQuestion()
-            "Отлично - ты справился\n${question.question}" to status.color
+            handleCorrectAnswer()
         } else {
-            if (status == Status.CRITICAL) {
-                question = Question.NAME
-                status = status.nextStatus()
-                "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
-            } else {
-                status = status.nextStatus()
-                "Это неправильный ответ\n${question.question}" to status.color
-            }
+            handleIncorrectAnswer()
         }
     }
 
-    //Question.NAME -> "Имя должно начинаться с заглавной буквы"
-    //Question.PROFESSION -> "Профессия должна начинаться со строчной буквы"
-    //Question.MATERIAL -> "Материал не должен содержать цифр"
-    //Question.BDAY -> "Год моего рождения должен содержать только цифры"
-    //Question.SERIAL -> "Серийный номер содержит только цифры, и их 7"
-    //Question.IDLE -> //игнорировать валидацию
+    private fun handleCorrectAnswer(): Pair<String, Triple<Int, Int, Int>> {
+        question = question.nextQuestion()
+        return "Отлично - ты справился\n${question.question}" to status.color
+    }
+
+    private fun handleIncorrectAnswer(): Pair<String, Triple<Int, Int, Int>> {
+        return if (status == Status.CRITICAL) {
+            question = Question.NAME
+            status = status.nextStatus()
+            "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+        } else {
+            status = status.nextStatus()
+            "Это неправильный ответ\n${question.question}" to status.color
+        }
+    }
+
     fun validateAnswer(answer: String): Pair<Boolean, String> {
         return when (question) {
-            Question.NAME -> if (startFromUpper(answer)) true to "" else false to "Имя должно начинаться с заглавной буквы"
-            Question.PROFESSION -> if (!startFromUpper(answer)) true to "" else false to "Профессия должна начинаться со строчной буквы"
+            Question.NAME -> if (startsFromUpper(answer)) true to "" else false to "Имя должно начинаться с заглавной буквы"
+            Question.PROFESSION -> if (!startsFromUpper(answer)) true to "" else false to "Профессия должна начинаться со строчной буквы"
             Question.MATERIAL -> if (noNumbers(answer)) true to "" else false to "Материал не должен содержать цифр"
             Question.BDAY -> if (onlyNumbers(answer)) true to "" else false to "Год моего рождения должен содержать только цифры"
             Question.SERIAL -> if (answer.length == 7 && onlyNumbers(answer)) true to "" else false to "Серийный номер содержит только цифры, и их 7"
@@ -53,15 +55,15 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         }
     }
 
-    private fun onlyNumbers(answer: String): Boolean {
-        return answer.toCharArray().filter { char -> char.isDigit().not() }.isEmpty()
-    }
-
     private fun noNumbers(answer: String): Boolean {
         return answer.toCharArray().filter { char -> char.isDigit() }.isEmpty()
     }
 
-    private fun startFromUpper(answer: String) = answer.isNotBlank() && answer[0].isUpperCase()
+    private fun onlyNumbers(answer: String): Boolean {
+        return answer.toCharArray().filter { char -> char.isDigit().not() }.isEmpty()
+    }
+
+    private fun startsFromUpper(answer: String) = answer.isNotBlank() && answer[0].isUpperCase()
 
     enum class Status(val color: Triple<Int, Int, Int>) {
         NORMAL(Triple(255, 255, 255)),
@@ -72,7 +74,6 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         fun nextStatus(): Status =
             if (ordinal < values().size - 1) values()[ordinal + 1]
             else values()[0]
-
     }
 
     enum class Question(val question: String, val answers: List<String>) {
@@ -84,12 +85,10 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         IDLE("На этом все, вопросов больше нет", listOf());
 
         fun nextQuestion(): Question =
-            if (this == IDLE) {
-                IDLE
-            } else {
+            if (this != IDLE) {
                 values()[ordinal + 1]
+            } else {
+                this
             }
     }
-
-
 }
