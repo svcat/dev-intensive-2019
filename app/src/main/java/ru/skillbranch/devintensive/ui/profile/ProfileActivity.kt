@@ -82,10 +82,8 @@ class ProfileActivity : AppCompatActivity() {
     private fun checkRepoState(isValidate: Boolean) {
         if (isValidate) {
             wr_repository.error = null
-            nested_scroll.scrollY = et_repository.bottom
         } else {
             wr_repository.error = "Невалидный адрес репозитория"
-            nested_scroll.scrollY = wr_repository.bottom
             et_repository.requestFocus()
         }
         wr_repository.isErrorEnabled = !isValidate
