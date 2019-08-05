@@ -5,7 +5,7 @@ import android.util.TypedValue
 import ru.skillbranch.devintensive.R
 
 /**
- * Created by Svcaton 2019-07-02.
+ * Created by Svcat on 2019-07-02.
  */
 object Utils {
 
