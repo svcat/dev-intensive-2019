@@ -88,6 +88,7 @@ class ProfileActivity : AppCompatActivity() {
             nested_scroll.scrollY = wr_repository.bottom
             et_repository.requestFocus()
         }
+        wr_repository.isErrorEnabled = !isValidate
     }
 
     private fun setInitials(initials: String) {
