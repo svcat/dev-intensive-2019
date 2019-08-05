@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.ui
+package ru.skillbranch.devintensive.ui.custom
 
 import android.content.Context
 import android.content.res.Resources
